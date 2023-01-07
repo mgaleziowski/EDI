@@ -1,1 +1,0 @@
-# mgaleziowski.github.io
