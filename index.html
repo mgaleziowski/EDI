@@ -35,8 +35,15 @@
                     </h2>
                     <form>
                         <input id="przycisk" type="button" value="Refresh data" />
-
+                        
                     </form>
+                    <div class="row">
+                        <form>
+                        <input id="przycisk_a1" type="button" value="awaryjny1" />
+                        <input id="przycisk_a2" type="button" value="awaryjny2" />
+                        <input id="przycisk_a3" type="button" value="awaryjny3" />
+                        </form>
+                    </div>
                     <div class="row">
                         <div id="chart_div"></div>
                     </div>
@@ -69,8 +76,90 @@
     var sp = 0;
     var uk = 0;
     var fr = 0;
+    var embutton=0;
     const pattern21 = /.021/;
     const pattern22 = /.022/;
+
+    function showDataFromJSONfile(){
+        male = 0;
+        female = 0;
+        nb = 0;
+        year21 = 0;
+        year22 = 0;
+        pl = 0;
+        gr = 0;
+        it = 0;
+        sp = 0;
+        uk = 0;
+        fr = 0;
+        $(document).ready(function(){
+            $.getJSON("j1.json",
+            function(data){
+                console.log(data);
+                let output = "";                                                
+                output += `<table><tr>
+            <th>ID</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>Gender</th>
+            <th>Address</th>
+            <th>Country</th>
+            <th>Shipment date</th>
+         </tr>`;
+                $(data).each(function (index) {                             //Funkcja wypisująca dane linijka po linijce
+                    if (data[index].gender == 'Male') {                     //Odczyt danych do wykresów
+                        male += 1;
+                    }
+                    if (data[index].gender != 'Male' && data[index].gender != "Female") {
+                        nb += 1;
+                    }
+                    if (data[index].gender == 'Female') {
+                        female += 1;
+                    }
+                    if (pattern21.test(data[index].date_of_shipment) == true) {
+                        year21 += 1;
+                    }
+                    if (pattern22.test(data[index].date_of_shipment) == true) {
+                        year22 += 1;
+                    }
+                    if (data[index].country == "Poland") {
+                        pl += 1;
+                    }
+                    if (data[index].country == "Germany") {
+                        gr += 1;
+                    }
+                    if (data[index].country == "France") {
+                        fr += 1;
+                    }
+                    if (data[index].country == "Ukraine") {
+                        uk += 1;
+                    }
+                    if (data[index].country == "Italy") {
+                        it += 1;
+                    }
+                    if (data[index].country == "Spain") {
+                        sp += 1;
+                    }                                       // Funkcja tworzy tabele i dodaje wiersz po wierszu
+                    output += `<tr>                
+                <td>${data[index].id}</td>
+                <td>${data[index].first_name}</td>
+                <td>${data[index].last_name}</td>
+                <td>${data[index].email}</td>
+                <td>${data[index].gender}</td>
+                <td>${data[index].address}</td>
+                <td>${data[index].country}</td>
+                <td>${data[index].date_of_shipment}</td>
+            </tr>`
+                })
+                output += `</table>`;
+                $('#userTable').html(output);
+                drawChart(),
+                drawChart2(),
+                drawChart3()
+            })
+        })
+    }
     function showDataFromAPI() {
         male = 0;
         female = 0;
@@ -228,6 +317,8 @@
 <script>
     var przycisk = document.getElementById('przycisk');
     przycisk.addEventListener("click", function () { showDataFromAPI(); });
+    var awaryjnyprzycisk=document.getElementById("przycisk_a1");
+    awaryjnyprzycisk.addEventListener("click",function(){showDataFromJSONfile();});
 
 
 </script>
