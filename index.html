@@ -39,9 +39,9 @@
                     </form>
                     <div class="row">
                         <form>
-                        <input id="przycisk_a1" type="button" value="awaryjny1" />
-                        <input id="przycisk_a2" type="button" value="awaryjny2" />
-                        <input id="przycisk_a3" type="button" value="awaryjny3" />
+                        <input id="przycisk_a1" type="button" value="JSON file 1" />
+                        <input id="przycisk_a2" type="button" value="JSON file 2" />
+                        <input id="przycisk_a3" type="button" value="JSON file 3" />
                         </form>
                     </div>
                     <div class="row">
@@ -80,7 +80,7 @@
     const pattern21 = /.021/;
     const pattern22 = /.022/;
 
-    function showDataFromJSONfile(){
+    function showDataFromJSONfile(json){
         male = 0;
         female = 0;
         nb = 0;
@@ -93,7 +93,7 @@
         uk = 0;
         fr = 0;
         $(document).ready(function(){
-            $.getJSON("j1.json",
+            $.getJSON(json,
             function(data){
                 console.log(data);
                 let output = "";                                                
@@ -317,9 +317,12 @@
 <script>
     var przycisk = document.getElementById('przycisk');
     przycisk.addEventListener("click", function () { showDataFromAPI(); });
-    var awaryjnyprzycisk=document.getElementById("przycisk_a1");
-    awaryjnyprzycisk.addEventListener("click",function(){showDataFromJSONfile();});
-
+    var jsonbutton1=document.getElementById("przycisk_a1");
+    jsonbutton1.addEventListener("click",function(){showDataFromJSONfile("j1.json");});
+    var jsonbutton2=document.getElementById("przycisk_a1");
+    jsonbutton2.addEventListener("click",function(){showDataFromJSONfile("j2.json");});
+    var jsonbutton3=document.getElementById("przycisk_a1");
+    jsonbutton3.addEventListener("click",function(){showDataFromJSONfile("j3.json");});
 
 </script>
 
